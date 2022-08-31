@@ -1,5 +1,13 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext('2d');
+ctx.font = "45px Time";
+ctx.strokeStyle = "gold";
+ctx.strokeText("ERROR", 500, 80);
+ctx.strokeText("404", 540, 135);
+ctx.strokeText("Page not found", 450, 190);
+
+
+
 var img = new Image();
 img.src = './kosmonavt.png';
 var CanvasXSize = 1210;
@@ -41,4 +49,5 @@ function draw() {
     ctx.drawImage(img,x,y,imgW,imgH);
     x += dx;
 }
+
 

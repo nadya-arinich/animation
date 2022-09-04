@@ -1,53 +1,53 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext('2d');
-ctx.font = "45px Time";
-ctx.strokeStyle = "gold";
-ctx.strokeText("ERROR", 500, 80);
-ctx.strokeText("404", 540, 135);
-ctx.strokeText("Page not found", 450, 190);
 
+$(function(){
 
+var planeta_id = 'canvas';
 
-var img = new Image();
-img.src = './kosmonavt.png';
-var CanvasXSize = 1210;
-var CanvasYSize = 555;
-var speed = [] ; 
-var scale = .2;
-var y = 280;
+var image = new Image();
+image.src = './4128.jpg';
 
-var dx = 0.75;
-var imgW;
-var imgH;
-var x = 0;
-var clearX;
-var clearY;
-var ctx;
+// загружаем изображение тени и бликов планеты
+var fxShadow = new Image();
+fxShadow.src = './123.png';
 
-img.onload = function() {
-    imgW = img.width*scale;
-    imgH = img.height*scale;
-    if (imgW > CanvasXSize) { x = CanvasXSize-imgW; } 
-    if (imgW > CanvasXSize) { clearX = imgW; } 
-    else { clearX = CanvasXSize; }
-    if (imgH > CanvasYSize) { clearY = imgH; } 
-    else { clearY = CanvasYSize; }
-    return setInterval(draw, speed*200);
+// определяем длину и высоту элемента canvas
+var width = $('#'+planeta_id).width();
+var height = $('#'+planeta_id).height();
+
+// рассчитываем угол вращения планеты
+var beta = 360/1000;
+var beta = (beta*Math.PI)/180;
+var l = (Math.sqrt(width*width+width*width))/2;
+var gam = Math.PI - ((Math.PI - (beta * Math.PI)/360)/2) - (Math.PI/4);
+var b = 2*l*Math.sin(beta/2);
+var x = b*Math.sin(gam);
+var y = b*Math.cos(gam);
+var p1 = Math.cos(beta);
+var p2 = Math.sin(beta);
+
+var canvas = document.getElementById(planeta_id);
+var ctx = canvas.getContext("2d");
+
+var imageWidth = 0;
+var imageHeight = 0;
+
+var drawPlaneta = function(){
+
+ctx.clearRect(0, 0, width, height);
+// применяем к нашей планете вращение
+ctx.transform(p1, p2, -p2, p1, x, -y);
+// рисуем карту с новыми координатами внутри элемента
+ctx.drawImage(image, imageWidth, imageHeight, width, height, 0, 0, width, height); 
+//добавляем тень и блики
+ctx.drawImage(fxShadow, 0, 0, width, height);
+// если смещение достигло предела, начинаем сначала
+if (imageWidth >= 300) imageWidth = 0; 
+else imageWidth = imageWidth+0.5; // иначе двигаем карту дальше
+
 }
 
-function draw() {
-    ctx.clearRect(0,0,clearX,clearY);
-    if (imgW <= CanvasXSize) {
-    if (x > (CanvasXSize)) { x = 0; }
-    if (x > (CanvasXSize-imgW)) { ctx.drawImage(img,x-CanvasXSize+1,y,imgW,imgH); }
-    }
-    
-    else {
-    if (x > (CanvasXSize)) { x = CanvasXSize-imgW; }
-    if (x > (CanvasXSize-imgW)) { ctx.drawImage(img,x-imgW+1,y,imgW,imgH); }
-    }
-    ctx.drawImage(img,x,y,imgW,imgH);
-    x += dx;
-}
+setInterval(drawPlaneta, 50); // запускаем анимацию со скоростью 50 мс.
 
-
+});

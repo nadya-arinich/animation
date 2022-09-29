@@ -9,29 +9,7 @@ align-items:center;
 overflow: hidden;
 }
 
-.text{
-position:absolute;
-left: 500px;
-top: 10px;;
-color:#fff;
-text-align:center;
-font-size:35px;
-font-family:Georgia, "Times New Roman", Times, serif;
--webkit-animation: text 1s linear infinite;
-animation: text 1s linear infinite;
-}
-    
-@-webkit-keyframes text {
-    100% { color: rgba(82, 9, 104, 0.829); }
-}
 
-@keyframes text {
-    100% { color: rgba(82, 9, 104, 0.829); }
-}
-    
-h1{
-font-size:50px;
-}
 
 
 
